@@ -6,4 +6,5 @@ urlpatterns = [
     path('watch/<int:pk>', SingleWatchAV.as_view(), name='single_watch'),
     path('platform/list', StreamPlatformListAV.as_view(), name='stream_platform'),
     path('platform/<int:pk>', SingleStreamPlatformAV.as_view(), name='single_platform'),
+    path('review/list', ReveiwListAV.as_view(), name='review_list'),
 ]

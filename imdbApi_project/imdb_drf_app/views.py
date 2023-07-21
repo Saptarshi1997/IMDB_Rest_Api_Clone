@@ -2,6 +2,7 @@ from imdb_drf_app.models import *
 from imdb_drf_app.serializers import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import mixins, generics
 
 # Create your views here.
 
@@ -79,3 +80,14 @@ class SingleWatchAV(APIView):
         watch = StreamPlatform.objects.get(pk = pk)
         watch.delete()
         return Response({"message": "The particular watch has been deleted!!!"})
+    
+
+class ReveiwListAV(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)

@@ -2,6 +2,11 @@ from rest_framework import serializers
 from imdb_drf_app.models import *
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = "__all__"
+
 class WatchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watch
