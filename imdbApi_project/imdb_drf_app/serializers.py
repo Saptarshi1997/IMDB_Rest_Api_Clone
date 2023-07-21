@@ -5,9 +5,13 @@ from imdb_drf_app.models import *
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = "__all__"
+        exclude = ('watch',)
+        # fields = "__all__"
 
 class WatchSerializer(serializers.ModelSerializer):
+    # review = serializers.StringRelatedField(many=True, read_only=True)
+    review = ReviewSerializer(many=True, read_only=True)
+    
     class Meta:
         model = Watch
         fields = "__all__"

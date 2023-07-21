@@ -82,12 +82,24 @@ class SingleWatchAV(APIView):
         return Response({"message": "The particular watch has been deleted!!!"})
     
 
-class ReveiwListAV(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
-    queryset = Review.objects.all()
+class ReviewListAV(generics.ListAPIView):
+    # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watch=pk)
     
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class ReviewCreateAV(generics.CreateAPIView):
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        watch = Watch.objects.get(pk=pk)
+        serializer.save(watch=watch)
+    
+
+class SingleReviewAV(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
